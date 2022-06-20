@@ -1,1 +1,26 @@
-<p>classe works!</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header">Liste des classes</div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th> <th>Niveau</th> <th>Index</th> <th>NbreEleves</th> <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of classes">
+          <td>{{c.id}}</td>
+          <td>{{c.niveau}}</td>
+          <td>{{c.index}}</td>
+          <td>{{c.nbreEleve}}</td>
+          <td>
+            <button (click)="deleteClasse(c)" class="btn btn-primary"><i class="bi bi-pencil"></i></button>
+            <button class="btn bg-danger"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
