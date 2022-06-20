@@ -1,8 +1,11 @@
 <div class="container">
+  <ng-template #errors>
+    <div class="text-danger">{{errorsMessage}}</div>
+  </ng-template>
   <div class="card">
     <div class="card-header">Liste des classes</div>
     <div class="card-body">
-      <table class="table">
+      <table class="table" *ngIf="classes; else errors">
         <thead>
         <tr>
           <th>ID</th> <th>Niveau</th> <th>Index</th> <th>NbreEleves</th> <th>Action</th>

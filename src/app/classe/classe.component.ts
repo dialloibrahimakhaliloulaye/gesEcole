@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ClasseService} from "../services/classe.service";
 
 @Component({
   selector: 'app-classe',
@@ -8,19 +9,22 @@ import { Component, OnInit } from '@angular/core';
 export class ClasseComponent implements OnInit {
 
   classes: Array<any> | undefined;
+  errorsMessage!: string;
 
-  constructor() { }
+  constructor(private classeService: ClasseService) { }
 
   ngOnInit(): void {
-    this.classes=[
-      {id:1, niveau:"terminale", index:"A", nbreEleve:55},
-      {id:2, niveau:"terminale", index:"B", nbreEleve:40},
-      {id:3, niveau:"premiere", index:"C", nbreEleve:60},
-      {id:4, niveau:"premiere", index:"A", nbreEleve:50}
-    ];
+    this.classeService.getAllClasses().subscribe({
+      next: (data)=>{
+        this.classes=data;
+      },
+      error: (err)=>{
+        this.errorsMessage=err;
+      }
+    });
   }
 
   deleteClasse(c:any) {
-    
+
   }
 }
