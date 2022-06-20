@@ -24,4 +24,9 @@ export class ClasseService {
     // else
       return of(this.classes);
   }
+
+  public deleteClasse(id: number): Observable<boolean>{
+    this.classes = this.classes.filter(p=>p.id!=id);
+    return of(true);
+  }
 }
