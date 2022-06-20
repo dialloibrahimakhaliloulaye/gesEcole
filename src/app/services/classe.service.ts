@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, throwError} from "rxjs";
+import {Classe} from "../model/classe.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClasseService {
 
-  private classes!: Array<any>
+  private classes!: Classe[]
 
   constructor() {
     this.classes=[
@@ -17,9 +18,10 @@ export class ClasseService {
     ];
   }
 
-  public getAllClasses(): Observable<Array<any>>{
-    let rnd=Math.random();
-    if(rnd<0.5) return throwError(()=>new Error("internet connection error"))
-    else return of(this.classes);
+  public getAllClasses(): Observable<Classe[]>{
+    // let rnd=Math.random();
+    // if(rnd<0.5) return throwError(()=>new Error("internet connection error"))
+    // else
+      return of(this.classes);
   }
 }
