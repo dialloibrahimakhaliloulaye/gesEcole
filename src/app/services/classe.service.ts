@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, throwError} from "rxjs";
 import {Classe} from "../model/classe.model";
+import {UUID} from "angular2-uuid";
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,22 @@ import {Classe} from "../model/classe.model";
 export class ClasseService {
 
   private classes!: Classe[]
+  errorMessage!: string;
 
   constructor() {
     this.classes=[
-      {id:1, niveau:"terminale", index:"A", nbreEleve:55},
-      {id:2, niveau:"terminale", index:"B", nbreEleve:40},
-      {id:3, niveau:"premiere", index:"C", nbreEleve:60},
-      {id:4, niveau:"premiere", index:"A", nbreEleve:50}
+      {id:UUID.UUID(), niveau:"terminale", index:"A", nbreEleve:55, anneeScolaire:'2022'},
+      {id:UUID.UUID(), niveau:"terminale", index:"B", nbreEleve:40, anneeScolaire:'2022'},
+      {id:UUID.UUID(), niveau:"premiere", index:"C", nbreEleve:60, anneeScolaire:'2022'},
+      {id:UUID.UUID(), niveau:"premiere", index:"A", nbreEleve:50, anneeScolaire:'2022'}
     ];
+
+    for (let i = 0; i < 10; i++) {
+      this.classes.push({id:UUID.UUID(), niveau:"terminale", index:"A", nbreEleve:55, anneeScolaire:'2022'});
+      this.classes.push({id:UUID.UUID(), niveau:"terminale", index:"B", nbreEleve:40, anneeScolaire:'2022'});
+      this.classes.push({id:UUID.UUID(), niveau:"premiere", index:"C", nbreEleve:60, anneeScolaire:'2022'});
+      this.classes.push({id:UUID.UUID(), niveau:"premiere", index:"A", nbreEleve:50, anneeScolaire:'2022'});
+    }
   }
 
   public getAllClasses(): Observable<Classe[]>{
@@ -25,8 +34,13 @@ export class ClasseService {
       return of(this.classes);
   }
 
-  public deleteClasse(id: number): Observable<boolean>{
+  public deleteClasse(id: string): Observable<boolean>{
     this.classes = this.classes.filter(p=>p.id!=id);
     return of(true);
+  }
+
+  public searchClasse(keyword: string): Observable<Classe[]>{
+    let classe = this.classes.filter(c=>c.niveau.includes(keyword));
+    return of(classe);
   }
 }

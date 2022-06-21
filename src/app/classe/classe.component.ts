@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ClasseService} from "../services/classe.service";
 import {Classe} from "../model/classe.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-classe',
@@ -9,13 +10,21 @@ import {Classe} from "../model/classe.model";
 })
 export class ClasseComponent implements OnInit {
 
-  classes: Array<Classe> | undefined;
+  classes!: Array<Classe>;
   errorsMessage!: string;
+  searchFormGroup!: FormGroup;
 
-  constructor(private classeService: ClasseService) { }
+  constructor(private classeService: ClasseService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.handleGetAllClasse();
+    this.handleSearch();
+  }
+
+  handleSearch(){
+    this.searchFormGroup = this.fb.group({
+      keyword: this.fb.control(null)
+    });
   }
 
   handleGetAllClasse(){
@@ -35,11 +44,18 @@ export class ClasseComponent implements OnInit {
     if(conf==false) return;
     this.classeService.deleteClasse(c.id).subscribe({
       next: (data)=>{
-        //this.handleGetAllClasse();
-        // @ts-ignore
         let index = this.classes.indexOf(c);
-        this.classes?.splice(index, 1);
+        this.classes.splice(index, 1);
       }
     });
+  }
+
+  handlesearchClasse() {
+    let keyword = this.searchFormGroup.value.keyword;
+    this.classeService.searchClasse(keyword).subscribe({
+      next: (data)=>{
+        this.classes = data;
+      }
+    })
   }
 }
